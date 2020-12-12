@@ -89,11 +89,18 @@ def p_limit_procdef(p_num, p_max, func, params, kwparams):
         proc = mp.Process(name="mp_tools_limit_" + str(i), target=func, args=params[i], kwargs=kwparams[i])
         wait_list.append(proc)
     
+    if len(wait_list) < p_max:
+        p_max = len(wait_list)
+    
+    remove_list = []
     for i in range(p_max):
         proc = wait_list[i]
         proc.start()
         running_list.append(proc)
-        wait_list.remove(proc)
+        remove_list.append(proc)
+    
+    for i in remove_list:
+        wait_list.remove(i)
     
     while len(wait_list) != 0 and len(running_list) != 0:
         remove_list = []
