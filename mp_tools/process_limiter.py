@@ -45,7 +45,7 @@ def p_limit(processes, p_max):
         remove_list = []
         for i in running_list:
             if not i.is_alive():
-                print("Process finished")
+                #print("Process finished")
                 i.join()
                 remove_list.append(i)
         
