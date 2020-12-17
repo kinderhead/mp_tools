@@ -41,16 +41,16 @@ def p_limit(processes, p_max):
     for i in remove_list:
         wait_list.remove(i)
     
-    while len(wait_list) != 0 and len(running_list) != 0:
+    while len(wait_list) != 0 or len(running_list) != 0:
         remove_list = []
         for i in running_list:
             if not i.is_alive():
-                #print("Process finished")
                 i.join()
                 remove_list.append(i)
-        
         for i in remove_list:
             running_list.remove(i)
+            if len(wait_list) == 0:
+                continue
             proc = wait_list.pop(0)
             proc.start()
             running_list.append(proc)
